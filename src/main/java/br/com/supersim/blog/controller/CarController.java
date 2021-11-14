@@ -48,7 +48,7 @@ public class CarController {
 		carService.delete(id, requestingUser);
 	}
 	
-	@GetMapping("photo/{photoKey}")
+	@GetMapping("/photo/{photoKey}")
 	public ResponseEntity<ByteArrayResource> download(@PathVariable String photoKey) throws IllegalStateException, IOException {
 		return carService.getPhotoDownloadByKey(photoKey);
 		
@@ -66,10 +66,5 @@ public class CarController {
 	public List<Car> getCarsByBrandId(@PathVariable Long id) throws CarException, BrandException{
 		return carService.getCarsByBrandId(id);
 	}
- 	
-//	@GetMapping("/all")
-//	public List<PublicationDTO> allPublicationByUserEmail(){
-//		return publicationService.getAllPublications();
-//	}
 
 }
