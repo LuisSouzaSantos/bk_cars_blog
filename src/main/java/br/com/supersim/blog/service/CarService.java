@@ -26,4 +26,6 @@ public interface CarService {
 	
 	public ResponseEntity<ByteArrayResource> getPhotoDownloadByKey(String photoKey);
 	
+	public List<Car> getCarsByBrandId(Long id) throws CarException, BrandException;
+	
 }

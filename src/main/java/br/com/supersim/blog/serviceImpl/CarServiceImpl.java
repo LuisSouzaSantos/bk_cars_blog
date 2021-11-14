@@ -35,7 +35,7 @@ public class CarServiceImpl implements CarService {
 	private UserService userService;
 	
 	@Autowired
-	private BrandService bradService;
+	private BrandService brandService;
 	
 	@Autowired
 	private Properties properties;
@@ -48,7 +48,7 @@ public class CarServiceImpl implements CarService {
 		
 		if(userPublication == null) { throw new CarException("Invalid requesting user"); }
 		
-		Brand brand = bradService.getBrandById(car.getBrand().getId());
+		Brand brand = brandService.getBrandById(car.getBrand().getId());
 		
 		if(brand == null) { throw new CarException("Brand not found");}
 		
@@ -96,7 +96,7 @@ public class CarServiceImpl implements CarService {
 		
 		Car retrievedCar = getCarById(car.getId());
 		
-		Brand brand = bradService.getBrandById(car.getBrand().getId());
+		Brand brand = brandService.getBrandById(car.getBrand().getId());
 			
 		if(brand == null) { throw new CarException("Invalid brand"); }
 		
@@ -160,6 +160,17 @@ public class CarServiceImpl implements CarService {
 	private String generatePhotoKey(MultipartFile multipartFile) {
 		String alphaNumericString = Utils.randomAlphaNumericString(10);
 		return (alphaNumericString + multipartFile.getOriginalFilename()).replace(" ", "");
+	}
+
+	@Override
+	public List<Car> getCarsByBrandId(Long id) throws CarException, BrandException {
+		if(id == null) { throw new CarException("Id cannot be null"); }
+		
+		Brand brand = brandService.getBrandById(id);
+		
+		if(brand == null) { throw new CarException("Brand not found"); }
+		
+		return carRepository.findByBrand(brand);
 	}
 
 	

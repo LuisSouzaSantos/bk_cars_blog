@@ -48,4 +48,5 @@ public class BrandController {
 	public List<Brand> getAllBrands() {
 		return brandService.getAllBrands();
 	}
+	
 }

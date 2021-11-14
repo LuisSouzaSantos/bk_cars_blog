@@ -2,6 +2,7 @@ package br.com.supersim.blog.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -61,6 +62,11 @@ public class CarController {
 		return carService.update(car, multipartFile, requestingUser);
 	}
 	
+	@GetMapping("/{id}")
+	public List<Car> getCarsByBrandId(@PathVariable Long id) throws CarException, BrandException{
+		return carService.getCarsByBrandId(id);
+	}
+ 	
 //	@GetMapping("/all")
 //	public List<PublicationDTO> allPublicationByUserEmail(){
 //		return publicationService.getAllPublications();
