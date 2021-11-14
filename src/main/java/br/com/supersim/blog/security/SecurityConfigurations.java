@@ -46,6 +46,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
 			.antMatchers(HttpMethod.GET, "/brand/all").permitAll()
 			.antMatchers(HttpMethod.GET, "/car/photo/*").permitAll()
+			.antMatchers(HttpMethod.GET, "/car/**").permitAll()
 			.antMatchers(HttpMethod.POST, "/car/**").hasRole("ADMIN")
 			.antMatchers(HttpMethod.PUT, "/car/**").hasRole("ADMIN")
 			.antMatchers(HttpMethod.DELETE, "/car/**").hasRole("ADMIN")
