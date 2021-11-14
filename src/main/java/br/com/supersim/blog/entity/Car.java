@@ -38,6 +38,10 @@ public class Car {
 	@JoinColumn(name="brand_id")
 	private Brand brand;
 	
+	public Car() {
+		
+	}
+	
 	public Car(String name, String model, Integer year, String fipe, Fuel fuel, String photoKey, Brand brand) {
 		this.setName(name);
 		this.setModel(model);

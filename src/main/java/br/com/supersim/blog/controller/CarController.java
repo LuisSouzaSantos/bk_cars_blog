@@ -62,7 +62,7 @@ public class CarController {
 		return carService.update(car, multipartFile, requestingUser);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/brand/{id}")
 	public List<Car> getCarsByBrandId(@PathVariable Long id) throws CarException, BrandException{
 		return carService.getCarsByBrandId(id);
 	}
