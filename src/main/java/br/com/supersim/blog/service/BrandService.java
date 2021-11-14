@@ -13,7 +13,7 @@ public interface BrandService {
 	
 	public void delete(Long brandId, Principal requestingUser) throws BrandException, UserException;
 	
-	public Brand update(Brand brand, Principal requestingUser) throws BrandException;
+	public Brand update(Brand brand, Principal requestingUser) throws BrandException, UserException;
 	
 	public List<Brand> getAllBrands();
 	

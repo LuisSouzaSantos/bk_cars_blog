@@ -42,11 +42,11 @@ public class CarServiceImpl implements CarService {
 	
 	@Override
 	public Car save(Car car, MultipartFile multipartFile, Principal requestingUser) throws UserException, CarException, BrandException {
-		if(requestingUser.getName() == null) { throw new CarException("Invalid user publication");}
+		if(requestingUser.getName() == null) { throw new CarException("Invalid requesting user");}
 		
 		UserDTO userPublication = userService.getUserDTOByEmail(requestingUser.getName());
 		
-		if(userPublication == null) { throw new CarException("Invalid user publication"); }
+		if(userPublication == null) { throw new CarException("Invalid requesting user"); }
 		
 		Brand brand = bradService.getBrandById(car.getBrand().getId());
 		
@@ -74,20 +74,57 @@ public class CarServiceImpl implements CarService {
 	
 	@Override
 	public void delete(Long carId, Principal requestingUser) throws CarException, UserException {
-		if(requestingUser.getName() == null) { throw new CarException("Invalid user publication");}
+		if(requestingUser.getName() == null) { throw new CarException("Invalid requesting user");}
 		
 		UserDTO userPublication = userService.getUserDTOByEmail(requestingUser.getName());
 		
-		if(userPublication == null) { throw new CarException("Invalid user publication"); }
+		if(userPublication == null) { throw new CarException("Invalid requesting user"); }
 		
 		carRepository.deleteById(carId);
 	}
 
 	@Override
 	public Car update(Car car, MultipartFile multipartFile, Principal requestingUser)
-			throws UserException, CarException {
-		// TODO Auto-generated method stub
-		return null;
+			throws UserException, CarException, BrandException {
+		if(requestingUser.getName() == null) { throw new CarException("Invalid requesting user");}
+		
+		UserDTO userPublication = userService.getUserDTOByEmail(requestingUser.getName());
+		
+		if(userPublication == null) { throw new CarException("Invalid requesting user"); }
+		
+		if(car.getId() == null) {throw new CarException("Invalid car"); }
+		
+		Car retrievedCar = getCarById(car.getId());
+		
+		Brand brand = bradService.getBrandById(car.getBrand().getId());
+			
+		if(brand == null) { throw new CarException("Invalid brand"); }
+		
+		try {
+			String photoKey = null;
+			
+			if(multipartFile != null) {
+				while(true) {
+					photoKey = generatePhotoKey(multipartFile);
+					
+					if(getCarByByPhotoKey(photoKey) == null) { break; }
+				}
+				
+				retrievedCar.setPhotoKey(photoKey);
+				AmazonUtils.Upload(properties.getAwsKeyId(), properties.getAwsSecretKey(), properties.getBucketS3Name(), multipartFile, photoKey);
+			}
+			
+			retrievedCar.setBrand(car.getBrand());
+			retrievedCar.setFipe(car.getFipe());
+			retrievedCar.setFuel(car.getFuel());
+			retrievedCar.setModel(car.getModel());
+			retrievedCar.setName(car.getName());
+			retrievedCar.setYear(car.getYear());
+			
+			return carRepository.save(retrievedCar);
+		}catch(IOException e) {
+			return null;
+		}
 	}
 
 	@Override

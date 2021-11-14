@@ -18,7 +18,7 @@ public interface CarService {
 	
 	public void delete(Long carId, Principal requestingUser) throws CarException, UserException;
 	
-	public Car update(Car car, MultipartFile multipartFile, Principal requestingUser) throws UserException, CarException;;
+	public Car update(Car car, MultipartFile multipartFile, Principal requestingUser) throws UserException, CarException, BrandException;;
 	
 	public List<Car> getAllCars();
 	

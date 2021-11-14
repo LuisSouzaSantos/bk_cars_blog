@@ -40,7 +40,7 @@ public class BrandController {
 	}
 	
 	@PutMapping
-	public Brand update(@RequestBody @Valid Brand brand, Principal requestingUser) throws BrandException  {
+	public Brand update(@RequestBody @Valid Brand brand, Principal requestingUser) throws BrandException, UserException  {
 		return brandService.update(brand, requestingUser);
 	}
 	

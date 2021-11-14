@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,16 +53,17 @@ public class CarController {
 		
 	}
 	
-//	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//	public PublicationDTO edit(
-//			@RequestPart(value = "publication", required = true) @Valid PublicationDTO publicationDTO, 
-//			@RequestPart(value = "file", required = false) MultipartFile multipartFile,
-//			Principal requestingUser) throws UserException, PublicationException {
-//		return publicationService.update(publicationDTO, multipartFile, requestingUser);
-//	}
+	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public Car edit(
+			@RequestPart(value = "publication", required = true) @Valid Car car, 
+			@RequestPart(value = "file", required = false) MultipartFile multipartFile,
+			Principal requestingUser) throws UserException, CarException, BrandException {
+		return carService.update(car, multipartFile, requestingUser);
+	}
 	
 //	@GetMapping("/all")
 //	public List<PublicationDTO> allPublicationByUserEmail(){
 //		return publicationService.getAllPublications();
 //	}
+
 }

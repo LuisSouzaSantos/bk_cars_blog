@@ -51,9 +51,20 @@ public class BrandServiceImpl implements BrandService {
 	}
 
 	@Override
-	public Brand update(Brand brand, Principal requestingUser) throws BrandException {
-		// TODO Auto-generated method stub
-		return null;
+	public Brand update(Brand brand, Principal requestingUser) throws BrandException, UserException {
+		if(requestingUser.getName() == null) { throw new BrandException("Invalid user publication");}
+		
+		UserDTO userPublication = userService.getUserDTOByEmail(requestingUser.getName());
+		
+		if(userPublication == null) { throw new BrandException("Invalid user publication"); }
+		
+		Brand retrivedBrandByName = getBrandByName(brand.getName());
+		
+		if((retrivedBrandByName != null) && (retrivedBrandByName.getId().equals(brand.getId()) == false)) {
+			throw new BrandException("Brand already exists");
+		}
+		
+		return brandRepository.save(brand);
 	}
 
 	@Override
