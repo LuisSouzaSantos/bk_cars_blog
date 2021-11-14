@@ -20,4 +20,10 @@ public class Utils {
 		return stringBuilder.toString();
 	}
 	
+	public static String sanitize(String value) {
+		if(value == null) { return null; }
+		
+		return value.trim();
+	}
+	
 }
